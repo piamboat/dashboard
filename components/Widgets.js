@@ -102,6 +102,11 @@ const Widgets = () => {
         setModalActive(true);
     };
 
+    const onDeleteWidget = (id) => {
+        // filter out selected id
+        setWidgets(widgets.filter( widget => widget.id !== id ));
+    }
+
     const onClearWidget = () => {
         setWidgets([]);
     }
@@ -137,7 +142,7 @@ const Widgets = () => {
                     </Button>
                 </div>
                 <div className="md:flex md:flex-wrap md:-mr-4">
-                    <Cards widgets={widgets} onAddWidget={onAddWidget} />
+                    <Cards widgets={widgets} onAddWidget={onAddWidget} onDeleteWidget={onDeleteWidget} />
                 </div>
             </div>
         </React.Fragment>

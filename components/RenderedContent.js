@@ -1,13 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import Card from './Card';
 import Button from './Button';
+import { MdClose, MdEdit } from "react-icons/md";
 
-const RenderedContent = ( {title, time, content} ) => {
+const RenderedContent = ({ id, title, time, content, onDeleteWidget }) => {
     if ( title === 'JustSay' ) {
         return (
             <div className="md:inner md:w-1/2 pb-4 md:pr-4">
                 <Card>
-                    <h2 className="text-lg font-bold text-gray-400 mb-1.5">{title}</h2>
+                    <div className="flex justify-between">
+                        <h2 className="text-lg font-bold text-gray-400 mb-1.5">{title}</h2>
+                        <div>
+                            <button className="text-lg text-gray-600 focus:outline-none mr-2">
+                                <MdEdit />
+                            </button>
+                            <button className="text-lg text-gray-600 focus:outline-none undefined">
+                                <MdClose onClick={() => onDeleteWidget(id)} />
+                            </button>
+                        </div>
+                    </div>
                     <div className="text-center mt-8 mb-12">
                         <h1 className="text-4xl font-bold undefined">{content}</h1>
                     </div>
@@ -26,7 +37,14 @@ const RenderedContent = ( {title, time, content} ) => {
         return (
             <div className="md:inner md:w-1/2 pb-4 md:pr-4">
                 <Card>
-                    <h2 className="text-lg font-bold text-gray-400 mb-1.5">{title}</h2>
+                    <div className="flex justify-between">
+                        <h2 className="text-lg font-bold text-gray-400 mb-1.5">{title}</h2>
+                        <div>
+                            <button className="text-lg text-gray-600 focus:outline-none undefined">
+                                <MdClose onClick={() => onDeleteWidget(id)} />
+                            </button>
+                        </div>
+                    </div>
                     <div className="text-center">
                         <div className="flex items-center justify-center mt-4 mb-6">
                             <button
@@ -85,7 +103,14 @@ const RenderedContent = ( {title, time, content} ) => {
         return (
             <div className="md:inner md:w-1/2 pb-4 md:pr-4">
                 <Card>
-                    <h2 className="text-lg font-bold text-gray-400 mb-1.5">{title}</h2>
+                    <div className="flex justify-between">
+                        <h2 className="text-lg font-bold text-gray-400 mb-1.5">{title}</h2>
+                        <div>
+                            <button className="text-lg text-gray-600 focus:outline-none undefined">
+                                <MdClose onClick={() => onDeleteWidget(id)} />
+                            </button>
+                        </div>
+                    </div>
                     <div className="text-center">
                         <div className="flex items-center justify-center mt-4 mb-6">
                             <div className="text-6xl mx-7">

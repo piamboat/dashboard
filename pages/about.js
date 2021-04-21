@@ -13,7 +13,7 @@ const about = () => {
                         Currently, we have only <strong>JustSay</strong>, <strong>Counter</strong> and <strong>Timer</strong> widgets.
                     </p>
                     <p>
-                        You can now add more widgets or even destroy all of then :P
+                        You can now add more widgets or even destroy all of them, edit JustSay text, view super great useless statistics!!!
                     </p>
                     <p>Crafted with <span className="text-red-600">♥</span> by Boat.</p>
                 </div>
