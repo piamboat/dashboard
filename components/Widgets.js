@@ -14,6 +14,15 @@ const Widgets = () => {
     const [modalContent, setModalContent] = useState('');
     const [widgets, setWidgets] = useState([]);
     
+    const onEditJustSay = (id, content) => {
+        const newWidgets = [];
+        widgets.map(widget => {
+            if ( widget.id === id ) widget.content = content;
+            newWidgets.push(widget);
+        });
+
+        setWidgets(newWidgets);
+    };  
 
     const onAddJustSay = (content) => {
         // add to cards
@@ -29,7 +38,7 @@ const Widgets = () => {
 
     const onGetJustSayContent = () => {
         setModalContent(
-            <JustSayContent onAddJustSay={onAddJustSay} />
+            <JustSayContent onUpdateJustSay={onAddJustSay} />
         );
     }
 
@@ -142,7 +151,7 @@ const Widgets = () => {
                     </Button>
                 </div>
                 <div className="md:flex md:flex-wrap md:-mr-4">
-                    <Cards widgets={widgets} onAddWidget={onAddWidget} onDeleteWidget={onDeleteWidget} />
+                    <Cards widgets={widgets} onAddWidget={onAddWidget} onDeleteWidget={onDeleteWidget} onEditJustSay={onEditJustSay} />
                 </div>
             </div>
         </React.Fragment>

@@ -1,34 +1,62 @@
 import React, { useState, useEffect } from 'react';
+import { MdClose, MdEdit } from "react-icons/md";
+import JustSayContent from './JustSayContent';
 import Card from './Card';
 import Button from './Button';
-import { MdClose, MdEdit } from "react-icons/md";
+import Modal from './Modal';
 
-const RenderedContent = ({ id, title, time, content, onDeleteWidget }) => {
+const RenderedContent = ({ id, title, time, content, onDeleteWidget, onEditJustSay }) => {
     if ( title === 'JustSay' ) {
+        const [modalActive, setModalActive] = useState(false);
+        const [modalContent, setModalContent] = useState('');
+
+        const onCancel = () => {
+            setModalActive(false);
+        }
+
+        const onEditSubmit = (id, content) => {
+            onEditJustSay(id, content);
+            setModalActive(false);
+        }
+
+        const onEditJustSayContent = (id) => {
+            setModalContent(
+                <JustSayContent id={id} content={content} onUpdateJustSay={onEditSubmit} />
+            );
+            setModalActive(true);
+        }
+
         return (
-            <div className="md:inner md:w-1/2 pb-4 md:pr-4">
-                <Card>
-                    <div className="flex justify-between">
-                        <h2 className="text-lg font-bold text-gray-400 mb-1.5">{title}</h2>
-                        <div>
-                            <button className="text-lg text-gray-600 focus:outline-none mr-2">
-                                <MdEdit />
-                            </button>
-                            <button className="text-lg text-gray-600 focus:outline-none undefined">
-                                <MdClose onClick={() => onDeleteWidget(id)} />
-                            </button>
+            <React.Fragment>
+                {modalActive && (
+                    <Modal onCancel={onCancel}>
+                        {modalContent}
+                    </Modal>
+                )}    
+                <div className="md:inner md:w-1/2 pb-4 md:pr-4">
+                    <Card>
+                        <div className="flex justify-between">
+                            <h2 className="text-lg font-bold text-gray-400 mb-1.5">{title}</h2>
+                            <div>
+                                <button className="text-lg text-gray-600 focus:outline-none mr-2">
+                                    <MdEdit onClick={() => onEditJustSayContent(id)} />
+                                </button>
+                                <button className="text-lg text-gray-600 focus:outline-none undefined">
+                                    <MdClose onClick={() => onDeleteWidget(id)} />
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div className="text-center mt-8 mb-12">
-                        <h1 className="text-4xl font-bold undefined">{content}</h1>
-                    </div>
-                    <div className="text-xs text-gray-400">
-                        <div className="mt-6 -mb-2 text-center">
-                            {time}
+                        <div className="text-center mt-8 mb-12">
+                            <h1 className="text-4xl font-bold undefined">{content}</h1>
                         </div>
-                    </div>
-                </Card>
-            </div>
+                        <div className="text-xs text-gray-400">
+                            <div className="mt-6 -mb-2 text-center">
+                                {time}
+                            </div>
+                        </div>
+                    </Card>
+                </div>
+            </React.Fragment>
         );
     }
     else if ( title === 'Counter' ) {

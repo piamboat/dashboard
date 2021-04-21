@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import Button from './Button';
 
-const JustSayContent = ({ onAddJustSay }) => {
-    const [justSayContent, setJustSayContent] = useState('');
+const JustSayContent = ({ id, content, onUpdateJustSay }) => {
+    const [justSayContent, setJustSayContent] = useState(content);
 
     return (
         <div>
-            <h2 className="text-xl mb-2">Add JustSay</h2>
+            <h2 className="text-xl mb-2">{ id ? 'Edit JustSay' : 'Add JustSay' }</h2>
             <div className="flex">
                 <div className="flex-1 mr-1">
                     <input
@@ -21,14 +21,19 @@ const JustSayContent = ({ onAddJustSay }) => {
                 <div>
                     <Button
                         color="primary"
-                        onClick={() => onAddJustSay(justSayContent.trim())}
+                        onClick={() => id ? onUpdateJustSay(id, justSayContent.trim()) : onUpdateJustSay(justSayContent.trim())}
                     >
-                        Add
+                        { id ? 'Edit' : 'Add' }
                     </Button>
                 </div>
             </div>
         </div>
     );
+}
+
+JustSayContent.defaultProps = {
+    id: null,
+    content: ''
 }
 
 export default JustSayContent;
