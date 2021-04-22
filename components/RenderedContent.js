@@ -5,7 +5,7 @@ import { Card } from './Card';
 import { Button } from './Button';
 import Modal from './Modal';
 
-const RenderedContent = ({ id, title, time, content, onDeleteWidget, onEditJustSay, onUpdateCounter }) => {
+const RenderedContent = ({ id, title, time, content, onDeleteWidget, onUpdateContent }) => {
     if ( title === 'JustSay' ) {
         const [modalActive, setModalActive] = useState(false);
         const [modalContent, setModalContent] = useState('');
@@ -15,7 +15,7 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onEditJustS
         }
 
         const onEditSubmit = (id, content) => {
-            onEditJustSay(id, content);
+            onUpdateContent(id, content);
             setModalActive(false);
         }
 
@@ -78,14 +78,14 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onEditJustS
                             <button
                                 className={`text-5xl rounded-full w-10 text-center focus:outline-none ${counter <= 0 ? 'text-gray-300' : 'text-blue-500'}`}
                                 disabled={ counter <= 0 ? true : false }
-                                onClick={() => onUpdateCounter(id, counter-1)}
+                                onClick={() => onUpdateContent(id, counter-1)}
                             >
                                 -
                             </button>
                             <div className="text-6xl mx-7">{counter}</div>
                             <button
                                 className="text-5xl rounded-full w-10 text-center focus:outline-none text-blue-500"
-                                onClick={() => onUpdateCounter(id, counter+1)}
+                                onClick={() => onUpdateContent(id, counter+1)}
                             >
                                 +
                             </button>
@@ -93,7 +93,7 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onEditJustS
                         <Button
                             color={ counter !== 0 ? 'primary' : 'default' }
                             disabled={ counter !== 0 ? false : true }
-                            onClick={() => onUpdateCounter(id, 0)}
+                            onClick={() => onUpdateContent(id, 0)}
                         >
                             Set zero
                         </Button>
@@ -109,7 +109,7 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onEditJustS
     }
     else // Timer
     {
-        const [timer, setTimer] = useState(0);
+        const timer = parseInt(content);
         const [timerOn, setTimerOn] = useState(false);
 
         useEffect(() => {
@@ -117,7 +117,7 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onEditJustS
 
             if (timerOn) { // start
                 interval = setInterval(() => {
-                    setTimer(prevTime => prevTime + 1000);
+                    onUpdateContent(id, content + 1000)
                 }, 1000);
             }
             else // pause
@@ -126,7 +126,7 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onEditJustS
             }
 
             return() => clearInterval(interval) // when unmount
-        }, [timerOn])
+        }, [timerOn, timer])
 
         return (
             <div className="md:inner md:w-1/2 pb-4 md:pr-4">
@@ -156,7 +156,7 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onEditJustS
                         <Button
                             color= { timer !== 0 ? 'primary' : 'default' }
                             disabled={ timer !== 0 ? false : true }
-                            onClick={() => setTimer(0)}
+                            onClick={ () => onUpdateContent(id, 0) }
                         >
                             Set zero
                         </Button>

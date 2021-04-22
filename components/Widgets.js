@@ -15,11 +15,10 @@ const Widgets = () => {
     const [modalContent, setModalContent] = useState('');
     const [widgets, setWidgets] = useState([]);
     
-    const onEditJustSay = (id, content) => {
-        let newWidgets = [];
-        widgets.map(widget => {
+    const onUpdateContent = (id, content) => {
+        let newWidgets = [...widgets];
+        newWidgets.map(widget => {
             if ( widget.id === id ) widget.content = content;
-            newWidgets.push(widget);
         });
 
         setWidgets(newWidgets);
@@ -53,18 +52,7 @@ const Widgets = () => {
 
         setWidgets([...widgets, newWidget])
         setModalActive(false);
-    };    
-
-    const onUpdateCounter = (id, content) => {
-        let newWidgets = [...widgets];
-        newWidgets.map(widget => {
-            if (widget.id === id) {
-                widget.content = content;
-            }
-        });
-
-        setWidgets(newWidgets);
-    }
+    };
 
     const onGetInitialCounter = () => {
         setModalContent(
@@ -78,7 +66,7 @@ const Widgets = () => {
         const dateObj = new Date();
         const time = `Added on ${dateObj.toLocaleString("en-EN", {dateStyle: "medium"}).split(',')[0]}, ${dateObj.toLocaleString("en-EN", {year: "2-digit"})}, ${dateObj.toLocaleTimeString()}`
         const title = 'Timer';
-        const content = '';
+        const content = 0;
         const newWidget = { id, time, title, content };
 
         setWidgets([newWidget, ...widgets])
@@ -185,8 +173,7 @@ const Widgets = () => {
                         widgets={widgets}
                         onAddWidget={onAddWidget}
                         onDeleteWidget={onDeleteWidget}
-                        onEditJustSay={onEditJustSay}
-                        onUpdateCounter={onUpdateCounter}
+                        onUpdateContent={onUpdateContent}
                     />
                 </div>
             </div>
