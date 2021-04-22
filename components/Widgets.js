@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { RiAddCircleLine, RiIncreaseDecreaseLine } from "react-icons/ri";
-import { BiBomb } from "react-icons/bi";
+import { RiAddCircleLine, RiIncreaseDecreaseLine, RiSettings3Line } from "react-icons/ri";
+//import { BiBomb } from "react-icons/bi";
 import { AiOutlineMessage } from "react-icons/ai";
 import { IoTimerOutline } from "react-icons/io5";
 import Cards from './Cards';
 import Modal from './Modal';
+import { Button } from './Button';
 import JustSayContent from './JustSayContent';
 import InitialCounter from './InitialCounter';
-import Button from './Button';
+import Settings from './Settings';
 
 const Widgets = () => {
     const [modalActive, setModalActive] = useState(false);
@@ -15,7 +16,7 @@ const Widgets = () => {
     const [widgets, setWidgets] = useState([]);
     
     const onEditJustSay = (id, content) => {
-        const newWidgets = [];
+        let newWidgets = [];
         widgets.map(widget => {
             if ( widget.id === id ) widget.content = content;
             newWidgets.push(widget);
@@ -53,6 +54,17 @@ const Widgets = () => {
         setWidgets([...widgets, newWidget])
         setModalActive(false);
     };    
+
+    const onUpdateCounter = (id, content) => {
+        let newWidgets = [...widgets];
+        newWidgets.map(widget => {
+            if (widget.id === id) {
+                widget.content = content;
+            }
+        });
+
+        setWidgets(newWidgets);
+    }
 
     const onGetInitialCounter = () => {
         setModalContent(
@@ -116,13 +128,32 @@ const Widgets = () => {
         setWidgets(widgets.filter( widget => widget.id !== id ));
     }
 
-    const onClearWidget = () => {
-        setWidgets([]);
-    }
-
     const onCancel = () => {
         setModalActive(false);
     };
+
+    const onClearWidgets = () => {
+        setWidgets([]);
+    }
+
+    const onSetAllZero = (title) => {
+        let newWidgets = [...widgets];
+        newWidgets.map(widget => {
+            if (widget.title === title) {
+                widget.content = 0
+            }
+        });
+
+        setWidgets(newWidgets);
+        setModalActive(false);
+    }
+
+    const onOpenSettings = () => {
+        setModalContent(
+            <Settings onClearWidgets={onClearWidgets} onSetAllZero={onSetAllZero} />
+        );
+        setModalActive(true);
+    }
     
     return (
         <React.Fragment>
@@ -143,15 +174,20 @@ const Widgets = () => {
                     </Button>
                     &nbsp;
                     <Button
-                        onClick={onClearWidget}
-                        disabled={widgets.length === 0 ? true : false}
+                        onClick={onOpenSettings}
                     >
-                        <BiBomb className="inline-block text-xl relative -top-0.5 mr-1" />
-                        Clear all
+                        <RiSettings3Line className="inline-block text-xl relative -top-0.5 mr-1" />
+                        Settings
                     </Button>
                 </div>
                 <div className="md:flex md:flex-wrap md:-mr-4">
-                    <Cards widgets={widgets} onAddWidget={onAddWidget} onDeleteWidget={onDeleteWidget} onEditJustSay={onEditJustSay} />
+                    <Cards 
+                        widgets={widgets}
+                        onAddWidget={onAddWidget}
+                        onDeleteWidget={onDeleteWidget}
+                        onEditJustSay={onEditJustSay}
+                        onUpdateCounter={onUpdateCounter}
+                    />
                 </div>
             </div>
         </React.Fragment>

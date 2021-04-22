@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Button from './Button';
+import { Button } from './Button';
 
 const InitialCounter = ({ onAddCounter }) => {
     const [initialCounter, setInitialCounter] = useState(0);

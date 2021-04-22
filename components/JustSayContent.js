@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Button from './Button';
+import { Button } from './Button';
 
 const JustSayContent = ({ id, content, onUpdateJustSay }) => {
     const [justSayContent, setJustSayContent] = useState(content);

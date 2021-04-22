@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { MdClose, MdEdit } from "react-icons/md";
 import JustSayContent from './JustSayContent';
-import Card from './Card';
-import Button from './Button';
+import { Card } from './Card';
+import { Button } from './Button';
 import Modal from './Modal';
 
-const RenderedContent = ({ id, title, time, content, onDeleteWidget, onEditJustSay }) => {
+const RenderedContent = ({ id, title, time, content, onDeleteWidget, onEditJustSay, onUpdateCounter }) => {
     if ( title === 'JustSay' ) {
         const [modalActive, setModalActive] = useState(false);
         const [modalContent, setModalContent] = useState('');
@@ -60,7 +60,7 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onEditJustS
         );
     }
     else if ( title === 'Counter' ) {
-        const [counter, setCounter] = useState(parseInt(content));
+        const counter = parseInt(content);
 
         return (
             <div className="md:inner md:w-1/2 pb-4 md:pr-4">
@@ -78,14 +78,14 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onEditJustS
                             <button
                                 className={`text-5xl rounded-full w-10 text-center focus:outline-none ${counter <= 0 ? 'text-gray-300' : 'text-blue-500'}`}
                                 disabled={ counter <= 0 ? true : false }
-                                onClick={() => setCounter(counter-1)}
+                                onClick={() => onUpdateCounter(id, counter-1)}
                             >
                                 -
                             </button>
                             <div className="text-6xl mx-7">{counter}</div>
                             <button
                                 className="text-5xl rounded-full w-10 text-center focus:outline-none text-blue-500"
-                                onClick={() => setCounter(counter+1)}
+                                onClick={() => onUpdateCounter(id, counter+1)}
                             >
                                 +
                             </button>
@@ -93,7 +93,7 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onEditJustS
                         <Button
                             color={ counter !== 0 ? 'primary' : 'default' }
                             disabled={ counter !== 0 ? false : true }
-                            onClick={() => setCounter(0)}
+                            onClick={() => onUpdateCounter(id, 0)}
                         >
                             Set zero
                         </Button>
