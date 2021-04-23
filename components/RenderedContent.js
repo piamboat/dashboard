@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { MdClose, MdEdit } from "react-icons/md";
 import JustSayContent from './JustSayContent';
 import { Card } from './Card';
@@ -111,13 +111,22 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onUpdateCon
     {
         const timer = parseInt(content);
         const [timerOn, setTimerOn] = useState(false);
+        const savedCallback = useRef();
+
+        const doingUpdateTimer = () => {
+            onUpdateContent(id, content + 1000);
+        }
+
+        useEffect(() => {
+            savedCallback.current = doingUpdateTimer;
+        });
 
         useEffect(() => {
             let interval = null;
 
             if (timerOn) { // start
                 interval = setInterval(() => {
-                    onUpdateContent(id, content + 1000)
+                    savedCallback.current()
                 }, 1000);
             }
             else // pause

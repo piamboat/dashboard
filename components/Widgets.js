@@ -15,9 +15,11 @@ const Widgets = () => {
     const [widgets, setWidgets] = useState([]);
 
     useEffect(() => {
+        /*
         setModalContent(
             <Settings widgets={widgets} onClearWidgets={onClearWidgets} onSetAllZero={onSetAllZero} />
         );
+        */
     }, [widgets])
     
     const onUpdateContent = (id, content) => {
