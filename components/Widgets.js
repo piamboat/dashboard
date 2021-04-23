@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RiAddCircleLine, RiIncreaseDecreaseLine, RiSettings3Line } from "react-icons/ri";
-//import { BiBomb } from "react-icons/bi";
 import { AiOutlineMessage } from "react-icons/ai";
 import { IoTimerOutline } from "react-icons/io5";
 import Cards from './Cards';
@@ -14,6 +13,12 @@ const Widgets = () => {
     const [modalActive, setModalActive] = useState(false);
     const [modalContent, setModalContent] = useState('');
     const [widgets, setWidgets] = useState([]);
+
+    useEffect(() => {
+        setModalContent(
+            <Settings widgets={widgets} onClearWidgets={onClearWidgets} onSetAllZero={onSetAllZero} />
+        );
+    }, [widgets])
     
     const onUpdateContent = (id, content) => {
         let newWidgets = [...widgets];
@@ -138,7 +143,7 @@ const Widgets = () => {
 
     const onOpenSettings = () => {
         setModalContent(
-            <Settings onClearWidgets={onClearWidgets} onSetAllZero={onSetAllZero} />
+            <Settings widgets={widgets} onClearWidgets={onClearWidgets} onSetAllZero={onSetAllZero} />
         );
         setModalActive(true);
     }
