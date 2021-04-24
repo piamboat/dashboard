@@ -12,14 +12,16 @@ import Settings from './Settings';
 const Widgets = () => {
     const [modalActive, setModalActive] = useState(false);
     const [modalContent, setModalContent] = useState('');
+    const [openSettings, setOpenSettings] = useState(false);
     const [widgets, setWidgets] = useState([]);
 
     useEffect(() => {
-        /*
-        setModalContent(
-            <Settings widgets={widgets} onClearWidgets={onClearWidgets} onSetAllZero={onSetAllZero} />
-        );
-        */
+        if (openSettings) {
+            setModalContent(
+                <Settings widgets={widgets} onClearWidgets={onClearWidgets} onSetAllZero={onSetAllZero} />
+            );
+            setModalActive(true);
+        }
     }, [widgets])
     
     const onUpdateContent = (id, content) => {
@@ -125,6 +127,7 @@ const Widgets = () => {
 
     const onCancel = () => {
         setModalActive(false);
+        if (openSettings) setOpenSettings(false);
     };
 
     const onClearWidgets = () => {
@@ -143,11 +146,12 @@ const Widgets = () => {
         setModalActive(false);
     }
 
-    const onOpenSettings = () => {
+    const openSettingsPage = () => {
         setModalContent(
             <Settings widgets={widgets} onClearWidgets={onClearWidgets} onSetAllZero={onSetAllZero} />
         );
         setModalActive(true);
+        setOpenSettings(true);
     }
     
     return (
@@ -169,7 +173,7 @@ const Widgets = () => {
                     </Button>
                     &nbsp;
                     <Button
-                        onClick={onOpenSettings}
+                        onClick={openSettingsPage}
                     >
                         <RiSettings3Line className="inline-block text-xl relative -top-0.5 mr-1" />
                         Settings
