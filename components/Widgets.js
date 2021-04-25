@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { RiAddCircleLine, RiIncreaseDecreaseLine, RiSettings3Line } from "react-icons/ri";
 import { AiOutlineMessage } from "react-icons/ai";
+import { HiOutlineSpeakerphone } from "react-icons/hi";
 import { IoTimerOutline } from "react-icons/io5";
 import Cards from './Cards';
 import Modal from './Modal';
 import { Button } from './Button';
 import JustSayContent from './JustSayContent';
+import JustShoutContent from './JustShoutContent'
 import InitialCounter from './InitialCounter';
 import Settings from './Settings';
 
@@ -24,10 +26,16 @@ const Widgets = () => {
         }
     }, [widgets])
     
-    const onUpdateContent = (id, content) => {
+    const onUpdateContent = (id, content, title) => {
         let newWidgets = [...widgets];
         newWidgets.map(widget => {
-            if ( widget.id === id ) widget.content = content;
+            if ( title === 'JustShout' ) {
+                widget.content = content;
+            }
+            else
+            {
+                if ( widget.id === id ) widget.content = content;
+            }
         });
 
         setWidgets(newWidgets);
@@ -48,6 +56,32 @@ const Widgets = () => {
     const onGetJustSayContent = () => {
         setModalContent(
             <JustSayContent onUpdateJustSay={onAddJustSay} />
+        );
+    }
+
+    const onAddJustShout = (content) => {
+        // add to cards
+        const id = Math.floor(Math.random() * 10000) + 1;
+        const dateObj = new Date();
+        const time = `Added on ${dateObj.toLocaleString("en-EN", {dateStyle: "medium"}).split(',')[0]}, ${dateObj.toLocaleString("en-EN", {year: "2-digit"})}, ${dateObj.toLocaleTimeString()}`
+        const title = 'JustShout';
+        const newWidget = { id, time, title, content };
+
+        let newWidgets = [...widgets];
+        newWidgets.map(widget => {
+            if ( widget.title === 'JustShout' ) widget.content = content;
+        });
+
+        setWidgets([...newWidgets, newWidget])
+        setModalActive(false);
+    };  
+
+    const onGetJustShoutContent = () => {
+        // check if there are any JustShout
+        const content = widgets.find(widget => widget.title === 'JustShout').content;
+
+        setModalContent(
+            <JustShoutContent content={content} onUpdateJustShout={onAddJustShout} />
         );
     }
 
@@ -94,6 +128,15 @@ const Widgets = () => {
                         >    
                             <AiOutlineMessage className="mx-auto text-4xl" />
                             <h3 className="mt-1 font-semibold text-sm">JustSay</h3>
+                        </div>
+                    </div>
+                    <div className="w-1/3 pt-1.5 pl-1.5">
+                        <div
+                            className="text-center bg-white text-gray-600 rounded-2xl p-3 md:p-4 hover:bg-blue-500 hover:text-white cursor-pointer"
+                            onClick={onGetJustShoutContent}
+                        >    
+                            <HiOutlineSpeakerphone className="mx-auto text-4xl" />
+                            <h3 className="mt-1 font-semibold text-sm">JustShout</h3>
                         </div>
                     </div>
                     <div className="w-1/3 pt-1.5 pl-1.5">

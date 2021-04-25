@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MdClose, MdEdit } from "react-icons/md";
 import JustSayContent from './JustSayContent';
+import JustShoutContent from './JustShoutContent'
 import { Card } from './Card';
 import { Button } from './Button';
 import Modal from './Modal';
 
 const RenderedContent = ({ id, title, time, content, onDeleteWidget, onUpdateContent }) => {
-    if ( title === 'JustSay' ) {
+    if ( title === 'JustSay' || title === 'JustShout' ) {
         const [modalActive, setModalActive] = useState(false);
         const [modalContent, setModalContent] = useState('');
 
@@ -15,13 +16,20 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onUpdateCon
         }
 
         const onEditSubmit = (id, content) => {
-            onUpdateContent(id, content);
+            onUpdateContent(id, content, title);
             setModalActive(false);
         }
 
         const onEditJustSayContent = (id) => {
             setModalContent(
                 <JustSayContent id={id} content={content} onUpdateJustSay={onEditSubmit} />
+            );
+            setModalActive(true);
+        }
+
+        const onEditJustShoutContent = (id) => {
+            setModalContent(
+                <JustShoutContent id={id} content={content} onUpdateJustShout={onEditSubmit} />
             );
             setModalActive(true);
         }
@@ -39,7 +47,7 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onUpdateCon
                             <h2 className="text-lg font-bold text-gray-400 mb-1.5">{title}</h2>
                             <div>
                                 <button className="text-lg text-gray-600 focus:outline-none mr-2">
-                                    <MdEdit onClick={() => onEditJustSayContent(id)} />
+                                    <MdEdit onClick={() => { title === 'JustSay' ? onEditJustSayContent(id) : onEditJustShoutContent(id) }} />
                                 </button>
                                 <button className="text-lg text-gray-600 focus:outline-none undefined">
                                     <MdClose onClick={() => onDeleteWidget(id)} />
