@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { VerticalCard } from './Card'
 import { Button } from './Button'
 
-const JustShoutInSettings = ({ justShoutContent, onUpdateContent }) => {
+const JustShoutInSettings = ({ justShoutContent, onSetJustShout }) => {
     const [content, setContent] = useState(justShoutContent);
 
     return (
         <VerticalCard>
             <h2 className="text-lg font-bold text-gray-400 mb-1.5">JustShout text</h2>
             <fieldset>
-                <form className="flex">
+                <div className="flex">
                     <div className="flex-1 mr-1">
                         <input
                             type="text"
@@ -30,7 +30,7 @@ const JustShoutInSettings = ({ justShoutContent, onUpdateContent }) => {
                             Edit
                         </Button>
                     </div>
-                </form>
+                </div>
             </fieldset>
         </VerticalCard>
     );

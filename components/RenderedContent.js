@@ -16,7 +16,7 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onUpdateCon
         }
 
         const onEditSubmit = (id, content) => {
-            onUpdateContent(id, content, title);
+            onUpdateContent(id, content);
             setModalActive(false);
         }
 

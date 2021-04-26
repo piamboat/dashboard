@@ -20,26 +20,33 @@ const Widgets = () => {
     useEffect(() => {
         if (openSettings) {
             setModalContent(
-                <Settings widgets={widgets} onClearWidgets={onClearWidgets} onSetAllZero={onSetAllZero} />
+                <Settings widgets={widgets} onClearWidgets={onClearWidgets} onSetAllZero={onSetAllZero} onSetJustShout={onSetJustShout} />
             );
             setModalActive(true);
         }
     }, [widgets])
     
-    const onUpdateContent = (id, content, title) => {
+    const onUpdateContent = (id, content) => {
         let newWidgets = [...widgets];
         newWidgets.map(widget => {
-            if ( title === 'JustShout' ) {
-                widget.content = content;
-            }
-            else
-            {
-                if ( widget.id === id ) widget.content = content;
+            if ( widget.id === id ) widget.content = content;
+        });
+
+        setWidgets(newWidgets);
+    };
+    
+    const onSetJustShout = (content) => {
+        let newWidgets = [...widgets];
+        newWidgets.map(widget => {
+            if (widget.title === 'JustShout') {
+                widget.content = content
             }
         });
 
         setWidgets(newWidgets);
-    };  
+        setModalActive(false);
+        setOpenSettings(false);
+    }
 
     const onAddJustSay = (content) => {
         // add to cards
@@ -78,10 +85,10 @@ const Widgets = () => {
 
     const onGetJustShoutContent = () => {
         // check if there are any JustShout
-        const content = widgets.find(widget => widget.title === 'JustShout').content;
+        const justShoutContent = widgets.find(widget => widget.title === 'JustShout');
 
         setModalContent(
-            <JustShoutContent content={content} onUpdateJustShout={onAddJustShout} />
+            <JustShoutContent content={justShoutContent ? justShoutContent.content : ''} onUpdateJustShout={onAddJustShout} />
         );
     }
 
@@ -192,7 +199,7 @@ const Widgets = () => {
 
     const openSettingsPage = () => {
         setModalContent(
-            <Settings widgets={widgets} onClearWidgets={onClearWidgets} onSetAllZero={onSetAllZero} />
+            <Settings widgets={widgets} onClearWidgets={onClearWidgets} onSetAllZero={onSetAllZero} onSetJustShout={onSetJustShout} />
         );
         setModalActive(true);
         setOpenSettings(true);
