@@ -6,6 +6,7 @@ import { Card } from './Card';
 import { Button } from './Button';
 import Modal from './Modal';
 import WeatherContent from './WeatherContent';
+import openweathermap from '../pages/api/openweather';
 
 const RenderedContent = ({ id, title, time, content, onDeleteWidget, onUpdateContent }) => {
     if ( title === 'JustSay' || title === 'JustShout' ) {
@@ -207,6 +208,26 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onUpdateCon
             setModalActive(true);
         }
 
+        const onRefreshData = async (term) => {
+            // call api
+            try {
+                const res = await openweathermap.get('/data/2.5/weather', {
+                    params: { 
+                        q: term,
+                        units: 'metric'
+                    }
+                })
+    
+                // destructuring array
+                const { data } = res
+                onUpdateContent(id, data);
+            }
+            catch
+            {
+                console.log('City is not found!')
+            }
+        }
+
         return (
             <React.Fragment>
                 {modalActive && (
@@ -220,13 +241,13 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onUpdateCon
                             <h2 className="text-lg font-bold text-gray-400 mb-1.5">{title}</h2>
                             <div>
                                 <button className="text-lg text-gray-600 focus:outline-none mr-2">
-                                    <MdRefresh onClick={() => console.log('refresh')} />
+                                    <MdRefresh onClick={ () => onRefreshData(content.name) } />
                                 </button>
                                 <button className="text-lg text-gray-600 focus:outline-none mr-2">
-                                    <MdEdit onClick={() => onEditWeatherContent(id) } />
+                                    <MdEdit onClick={ () => onEditWeatherContent(id) } />
                                 </button>
                                 <button className="text-lg text-gray-600 focus:outline-none undefined">
-                                    <MdClose onClick={() => onDeleteWidget(id)} />
+                                    <MdClose onClick={ () => onDeleteWidget(id) } />
                                 </button>
                             </div>
                         </div>
@@ -234,7 +255,7 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onUpdateCon
                             <h3 className="text-xl font-bold capitalize">{content.name}</h3>
                             <h4 className="text-gray-400 -mt-1">
                                 <div className="flex justify-center items-center">
-                                    <img className="align-middle text-2xl mr-1.5 owi owi-10n" src={`http://openweathermap.org/img/wn/${content.weather[0].icon}@2x.png`} width="50" alt="logo" />
+                                    <img className="align-middle text-2xl mr-1.5" src={`http://openweathermap.org/img/wn/${content.weather[0].icon}@2x.png`} width="50" alt="logo" />
                                     <span className="align-middle">{content.weather[0].description}</span>
                                 </div>
                             </h4>
