@@ -10,6 +10,8 @@ const Settings = ({ widgets, onClearWidgets, onSetAllZero, onSetJustShout }) => 
     let totalJustShoutLength = 0;
     let totalCount = 0;
     let totalTime = 0;
+    let coldestCity = 'N/A';
+    let initTemp = 100;
 
     widgets.map(widget => {
         if (widget.title === 'JustSay') {
@@ -24,6 +26,13 @@ const Settings = ({ widgets, onClearWidgets, onSetAllZero, onSetJustShout }) => 
         }
         else if (widget.title === 'Timer') {
             totalTime = totalTime + widget.content;
+        }
+        else if (widget.title === 'Weather') {
+            const currTemp = widget.content.main.temp
+            if(currTemp < initTemp) {
+                coldestCity = widget.content.name;
+                initTemp = currTemp;
+            }
         }
     });
 
@@ -43,13 +52,18 @@ const Settings = ({ widgets, onClearWidgets, onSetAllZero, onSetJustShout }) => 
                     </div>
                     <div className="table-row"></div>
                         <div className="table-cell pr-4 font-semibold">Total count: </div>
-                        <div className="table-cell">{ totalCount }</div>
+                        <div className="table-cell">{ totalCount }
+                    </div>
                     <div className="table-row">
                         <div className="table-cell pr-4 font-semibold">Total time: </div>
                         <div className="table-cell">
                             <span>{(`0${Math.floor((totalTime / 60000) % 60)}`).slice(-2)}:</span>
                             <span>{(`0${Math.floor((totalTime / 1000) % 60)}`).slice(-2)}</span>
                         </div>
+                    </div>
+                    <div className="table-row"></div>
+                        <div className="table-cell pr-4 font-semibold">Coldest cities: </div>
+                        <div className="table-cell">{ coldestCity }
                     </div>
                 </div>
             </VerticalCard>
