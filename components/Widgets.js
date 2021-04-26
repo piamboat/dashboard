@@ -187,6 +187,7 @@ const Widgets = () => {
 
         setWidgets(newWidgets);
         setModalActive(false);
+        setOpenSettings(false);
     }
 
     const openSettingsPage = () => {
