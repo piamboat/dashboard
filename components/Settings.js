@@ -22,8 +22,7 @@ const Settings = ({ widgets, onClearWidgets, onSetAllZero, onSetJustShout }) => 
         else if (widget.title === 'Counter') {
             totalCount = totalCount + parseInt(widget.content);
         }
-        else // timer
-        {
+        else if (widget.title === 'Timer') {
             totalTime = totalTime + widget.content;
         }
     });

@@ -220,11 +220,16 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onUpdateCon
     
                 // destructuring array
                 const { data } = res
+                data.error = '';
                 onUpdateContent(id, data);
             }
             catch
             {
-                console.log('City is not found!')
+                const data = {
+                    name: term,
+                    error: 'City not found'
+                }            
+                onUpdateContent(id, data);
             }
         }
 
@@ -240,9 +245,13 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onUpdateCon
                         <div className="flex justify-between">
                             <h2 className="text-lg font-bold text-gray-400 mb-1.5">{title}</h2>
                             <div>
-                                <button className="text-lg text-gray-600 focus:outline-none mr-2">
-                                    <MdRefresh onClick={ () => onRefreshData(content.name) } />
-                                </button>
+                                {
+                                    content !== "City not found" ?
+                                    <button className="text-lg text-gray-600 focus:outline-none mr-2">
+                                        <MdRefresh onClick={ () => onRefreshData(content.name) } />
+                                    </button>
+                                    : <React.Fragment />
+                                }
                                 <button className="text-lg text-gray-600 focus:outline-none mr-2">
                                     <MdEdit onClick={ () => onEditWeatherContent(id) } />
                                 </button>
@@ -252,14 +261,31 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onUpdateCon
                             </div>
                         </div>
                         <div className="text-center">
-                            <h3 className="text-xl font-bold capitalize">{content.name}</h3>
-                            <h4 className="text-gray-400 -mt-1">
-                                <div className="flex justify-center items-center">
-                                    <img className="align-middle text-2xl mr-1.5" src={`http://openweathermap.org/img/wn/${content.weather[0].icon}@2x.png`} width="50" alt="logo" />
-                                    <span className="align-middle">{content.weather[0].description}</span>
-                                </div>
-                            </h4>
-                            <h2 className="text-gray-500 mt-1 text-5xl font-extralight">{content.main.temp}°</h2>
+                            {
+                                content.error !== "City not found" ?
+                                <h3 className="text-xl font-bold capitalize">{content.name}</h3>
+                                :
+                                <h3 className="text-xl font-bold capitalize text-red-600">{content.name}</h3>
+                            }
+                            {
+                                content.error !== "City not found" ?
+                                <h4 className="text-gray-400 -mt-1">
+                                    <div className="flex justify-center items-center">
+                                        <img className="align-middle text-2xl mr-1.5" src={`http://openweathermap.org/img/wn/${content.weather[0].icon}@2x.png`} width="50" alt="logo" />
+                                        <span className="align-middle">{content.weather[0].description}</span>
+                                    </div>
+                                </h4>
+                                :
+                                <h4 className="text-red-400 -mt-1">
+                                    <span className="align-middle">City not found</span>
+                                </h4>
+                            }
+                            {
+                                content.error !== "City not found" ?
+                                <h2 className="text-gray-500 mt-1 text-5xl font-extralight">{content.main.temp}°</h2>
+                                :
+                                <h2 className="text-red-500 mt-1 text-5xl font-extralight">--</h2>
+                            } 
                         </div>
                         <div className="mt-6">
                             <div className="text-xs text-gray-400">

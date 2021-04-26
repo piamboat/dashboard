@@ -17,6 +17,7 @@ const WeatherContent = ({ id, content, onUpdateWeather }) => {
 
             // destructuring array
             const { data } = res
+            data.error = '';
             if (id === null) { // add
                 onUpdateWeather(data);
             }
@@ -27,7 +28,17 @@ const WeatherContent = ({ id, content, onUpdateWeather }) => {
         }
         catch
         {
-            console.log('City is not found!')
+            const data = {
+                name: term,
+                error: 'City not found'
+            }
+            if (id === null) { // add
+                onUpdateWeather(data);
+            }
+            else // edit
+            {
+                onUpdateWeather(id, data);
+            }
         }
     }
 

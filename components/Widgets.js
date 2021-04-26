@@ -37,7 +37,7 @@ const Widgets = () => {
             if( widget.title === 'Weather' ) {
                 const dateObj = new Date();
                 const time = `Last updated on ${dateObj.toLocaleString("en-EN", {dateStyle: "medium"}).split(',')[0]}, ${dateObj.toLocaleString("en-EN", {year: "2-digit"})}, ${dateObj.toLocaleTimeString()}`
-                widget.time = time; 
+                widget.time = time;
             }
         });
 
