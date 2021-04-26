@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MdClose, MdEdit } from "react-icons/md";
+import { MdClose, MdEdit, MdRefresh } from "react-icons/md";
 import JustSayContent from './JustSayContent';
 import JustShoutContent from './JustShoutContent'
 import { Card } from './Card';
 import { Button } from './Button';
 import Modal from './Modal';
+import WeatherContent from './WeatherContent';
 
 const RenderedContent = ({ id, title, time, content, onDeleteWidget, onUpdateContent }) => {
     if ( title === 'JustSay' || title === 'JustShout' ) {
@@ -115,8 +116,7 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onUpdateCon
             </div>
         );
     }
-    else // Timer
-    {
+    else if ( title === 'Timer' ) {
         const timer = parseInt(content);
         const [timerOn, setTimerOn] = useState(false);
         const savedCallback = useRef();
@@ -185,6 +185,71 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onUpdateCon
                     </div>
                 </Card>
             </div>
+        );
+    }
+    else if ( title === 'Weather' ) {
+        const [modalActive, setModalActive] = useState(false);
+        const [modalContent, setModalContent] = useState('');
+
+        const onCancel = () => {
+            setModalActive(false);
+        }
+
+        const onEditSubmit = (id, content) => {
+            onUpdateContent(id, content);
+            setModalActive(false);
+        }
+
+        const onEditWeatherContent = (id) => {
+            setModalContent(
+                <WeatherContent id={id} content={content.name} onUpdateWeather={onEditSubmit} />
+            );
+            setModalActive(true);
+        }
+
+        return (
+            <React.Fragment>
+                {modalActive && (
+                    <Modal onCancel={onCancel}>
+                        {modalContent}
+                    </Modal>
+                )}    
+                <div className="md:inner md:w-1/2 pb-4 md:pr-4">
+                    <Card>
+                        <div className="flex justify-between">
+                            <h2 className="text-lg font-bold text-gray-400 mb-1.5">{title}</h2>
+                            <div>
+                                <button className="text-lg text-gray-600 focus:outline-none mr-2">
+                                    <MdRefresh onClick={() => console.log('refresh')} />
+                                </button>
+                                <button className="text-lg text-gray-600 focus:outline-none mr-2">
+                                    <MdEdit onClick={() => onEditWeatherContent(id) } />
+                                </button>
+                                <button className="text-lg text-gray-600 focus:outline-none undefined">
+                                    <MdClose onClick={() => onDeleteWidget(id)} />
+                                </button>
+                            </div>
+                        </div>
+                        <div className="text-center">
+                            <h3 className="text-xl font-bold capitalize">{content.name}</h3>
+                            <h4 className="text-gray-400 -mt-1">
+                                <div className="flex justify-center items-center">
+                                    <img className="align-middle text-2xl mr-1.5 owi owi-10n" src={`http://openweathermap.org/img/wn/${content.weather[0].icon}@2x.png`} width="50" alt="logo" />
+                                    <span className="align-middle">{content.weather[0].description}</span>
+                                </div>
+                            </h4>
+                            <h2 className="text-gray-500 mt-1 text-5xl font-extralight">{content.main.temp}°</h2>
+                        </div>
+                        <div className="mt-6">
+                            <div className="text-xs text-gray-400">
+                                <div className="-mb-2 text-center">
+                                    {time}
+                                </div>
+                            </div>
+                        </div>
+                    </Card>
+                </div>
+            </React.Fragment>
         );
     }
 }

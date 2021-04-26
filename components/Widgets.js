@@ -3,6 +3,7 @@ import { RiAddCircleLine, RiIncreaseDecreaseLine, RiSettings3Line } from "react-
 import { AiOutlineMessage } from "react-icons/ai";
 import { HiOutlineSpeakerphone } from "react-icons/hi";
 import { IoTimerOutline } from "react-icons/io5";
+import { TiWeatherPartlySunny } from "react-icons/ti";
 import Cards from './Cards';
 import Modal from './Modal';
 import { Button } from './Button';
@@ -10,6 +11,7 @@ import JustSayContent from './JustSayContent';
 import JustShoutContent from './JustShoutContent'
 import InitialCounter from './InitialCounter';
 import Settings from './Settings';
+import WeatherContent from './WeatherContent';
 
 const Widgets = () => {
     const [modalActive, setModalActive] = useState(false);
@@ -29,7 +31,14 @@ const Widgets = () => {
     const onUpdateContent = (id, content) => {
         let newWidgets = [...widgets];
         newWidgets.map(widget => {
-            if ( widget.id === id ) widget.content = content;
+            if ( widget.id === id ) {
+                widget.content = content;
+            }
+            if( widget.title === 'Weather' ) {
+                const dateObj = new Date();
+                const time = `Last updated on ${dateObj.toLocaleString("en-EN", {dateStyle: "medium"}).split(',')[0]}, ${dateObj.toLocaleString("en-EN", {year: "2-digit"})}, ${dateObj.toLocaleTimeString()}`
+                widget.time = time; 
+            }
         });
 
         setWidgets(newWidgets);
@@ -123,6 +132,24 @@ const Widgets = () => {
         setModalActive(false);
     }
 
+    const onAddWeather = (content) => {
+        // add to cards
+        const id = Math.floor(Math.random() * 10000) + 1;
+        const dateObj = new Date();
+        const time = `Last updated on ${dateObj.toLocaleString("en-EN", {dateStyle: "medium"}).split(',')[0]}, ${dateObj.toLocaleString("en-EN", {year: "2-digit"})}, ${dateObj.toLocaleTimeString()}`
+        const title = 'Weather';
+        const newWidget = { id, time, title, content };
+
+        setWidgets([newWidget, ...widgets])
+        setModalActive(false);
+    }
+
+    const onGetCityName = () => {
+        setModalContent(
+            <WeatherContent onUpdateWeather={onAddWeather} />
+        );
+    }
+
     const onAddWidget = () => {
         setModalContent(
             <div>
@@ -162,6 +189,15 @@ const Widgets = () => {
                         >
                             <IoTimerOutline className="mx-auto text-4xl" />
                             <h3 className="mt-1 font-semibold text-sm">Timer</h3>
+                        </div>
+                    </div>
+                    <div className="w-1/3 pt-1.5 pl-1.5">
+                        <div
+                            className="text-center bg-white text-gray-600 rounded-2xl p-3 md:p-4 hover:bg-blue-500 hover:text-white cursor-pointer"
+                            onClick={onGetCityName}
+                        >
+                            <TiWeatherPartlySunny className="mx-auto text-4xl" />
+                            <h3 className="mt-1 font-semibold text-sm">Weather</h3>
                         </div>
                     </div>
                 </div>
