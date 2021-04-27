@@ -4,6 +4,7 @@ import { AiOutlineMessage } from "react-icons/ai";
 import { HiOutlineSpeakerphone } from "react-icons/hi";
 import { IoTimerOutline } from "react-icons/io5";
 import { TiWeatherPartlySunny } from "react-icons/ti";
+import { GiCardPick } from "react-icons/gi";
 import Cards from './Cards';
 import Modal from './Modal';
 import { Button } from './Button';
@@ -12,6 +13,7 @@ import JustShoutContent from './JustShoutContent'
 import InitialCounter from './InitialCounter';
 import Settings from './Settings';
 import WeatherContent from './WeatherContent';
+import MatchingGame from './MatchingGame';
 
 const Widgets = () => {
     const [modalActive, setModalActive] = useState(false);
@@ -150,6 +152,12 @@ const Widgets = () => {
         );
     }
 
+    const onPlayMatching = () => {
+        setModalContent(
+            <MatchingGame />
+        );
+    }
+
     const onAddWidget = () => {
         setModalContent(
             <div>
@@ -198,6 +206,15 @@ const Widgets = () => {
                         >
                             <TiWeatherPartlySunny className="mx-auto text-4xl" />
                             <h3 className="mt-1 font-semibold text-sm">Weather</h3>
+                        </div>
+                    </div>
+                    <div className="w-1/3 pt-1.5 pl-1.5">
+                        <div
+                            className="text-center bg-white text-gray-600 rounded-2xl p-3 md:p-4 hover:bg-blue-500 hover:text-white cursor-pointer"
+                            onClick={onPlayMatching}
+                        >
+                            <GiCardPick className="mx-auto text-4xl" />
+                            <h3 className="mt-1 font-semibold text-sm">Matching</h3>
                         </div>
                     </div>
                 </div>
