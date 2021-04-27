@@ -29,18 +29,17 @@ const MatchingGame = ({ cards }) => {
 
     return (
         <div>
-            <h2 className="text-xl mb-2">Matching Game</h2>
-                <div className="grid grid-cols-4 gap-3">
-                    {
-                        pairOfCards.map((card, index) => {
-                            let flipped = false;
-                            if( openCard.includes(index) ) flipped = true;
-                            if( matched.includes(card.id) ) flipped = true;
+            <div className="grid grid-cols-4 gap-3">
+                {
+                    pairOfCards.map((card, index) => {
+                        let flipped = false;
+                        if( openCard.includes(index) ) flipped = true;
+                        if( matched.includes(card.id) ) flipped = true;
 
-                            return <CardGame index={index} flipped={flipped} cardIcon={card.icon} handleFlip={handleFlip} />
-                        })
-                    }
-                </div>
+                        return <CardGame index={index} flipped={flipped} cardIcon={card.icon} handleFlip={handleFlip} />
+                    })
+                }
+            </div>
         </div>
     );
 }

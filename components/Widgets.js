@@ -14,7 +14,6 @@ import JustShoutContent from './JustShoutContent'
 import InitialCounter from './InitialCounter';
 import Settings from './Settings';
 import WeatherContent from './WeatherContent';
-import MatchingGame from './MatchingGame';
 
 const Widgets = () => {
     const [modalActive, setModalActive] = useState(false);
@@ -164,7 +163,7 @@ const Widgets = () => {
         return cards;
     }
 
-    const onPlayMatching = () => {
+    const onAddMatchingGame = () => {
         let cards = [
             { id: 1, icon: <GiCard2Clubs /> },
             { id: 2, icon: <GiCard3Clubs /> },
@@ -177,9 +176,16 @@ const Widgets = () => {
         // shuffle cards
         shuffleCards(cards);
 
-        setModalContent(
-            <MatchingGame cards={cards} />
-        );
+        // add to cards
+        const id = Math.floor(Math.random() * 10000) + 1;
+        const dateObj = new Date();
+        const time = `Added on ${dateObj.toLocaleString("en-EN", {dateStyle: "medium"}).split(',')[0]}, ${dateObj.toLocaleString("en-EN", {year: "2-digit"})}, ${dateObj.toLocaleTimeString()}`
+        const title = 'Matching';
+        const content = cards;
+        const newWidget = { id, time, title, content };
+
+        setWidgets([newWidget, ...widgets]);
+        setModalActive(false);
     }
 
     const onAddWidget = () => {
@@ -235,7 +241,7 @@ const Widgets = () => {
                     <div className="w-1/3 pt-1.5 pl-1.5">
                         <div
                             className="text-center bg-white text-gray-600 rounded-2xl p-3 md:p-4 hover:bg-blue-500 hover:text-white cursor-pointer"
-                            onClick={onPlayMatching}
+                            onClick={onAddMatchingGame}
                         >
                             <GiCardPick className="mx-auto text-4xl" />
                             <h3 className="mt-1 font-semibold text-sm">Matching</h3>

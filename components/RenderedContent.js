@@ -7,6 +7,7 @@ import { Button } from './Button';
 import Modal from './Modal';
 import WeatherContent from './WeatherContent';
 import openweathermap from '../pages/api/openweather';
+import MatchingGame from './MatchingGame';
 
 const RenderedContent = ({ id, title, time, content, onDeleteWidget, onUpdateContent }) => {
     if ( title === 'JustSay' || title === 'JustShout' ) {
@@ -298,6 +299,23 @@ const RenderedContent = ({ id, title, time, content, onDeleteWidget, onUpdateCon
                 </div>
             </React.Fragment>
         );
+    }
+    else if ( title === 'Matching' ) {
+        return (
+            <div className="md:inner md:w-1/2 pb-4 md:pr-4">
+                <Card>
+                    <div className="flex justify-between">
+                        <h2 className="text-lg font-bold text-gray-400 mb-1.5">{title}</h2>
+                        <div>
+                            <button className="text-lg text-gray-600 focus:outline-none undefined">
+                                <MdClose onClick={() => onDeleteWidget(id)} />
+                            </button>
+                        </div>
+                    </div>
+                    <MatchingGame cards={content} />
+                </Card>
+            </div>
+        )
     }
 }
 
