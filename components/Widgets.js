@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { RiAddCircleLine, RiIncreaseDecreaseLine, RiSettings3Line } from "react-icons/ri";
-import { GiCard2Clubs, GiCard3Clubs, GiCard4Clubs, GiCard5Clubs, GiCard6Clubs, GiCard7Clubs } from "react-icons/gi";
 import { AiOutlineMessage } from "react-icons/ai";
 import { HiOutlineSpeakerphone } from "react-icons/hi";
 import { IoTimerOutline } from "react-icons/io5";
@@ -176,12 +175,12 @@ const Widgets = () => {
 
     const onAddMatchingGame = () => {
         let cards = [
-            { id: 1, icon: <GiCard2Clubs /> },
-            { id: 2, icon: <GiCard3Clubs /> },
-            { id: 3, icon: <GiCard4Clubs /> },
-            { id: 4, icon: <GiCard5Clubs /> },
-            { id: 5, icon: <GiCard6Clubs /> },
-            { id: 6, icon: <GiCard7Clubs /> }
+            { id: 1, icon: 'GiCard2Clubs' },
+            { id: 2, icon: 'GiCard3Clubs' },
+            { id: 3, icon: 'GiCard4Clubs' },
+            { id: 4, icon: 'GiCard5Clubs' },
+            { id: 5, icon: 'GiCard6Clubs' },
+            { id: 6, icon: 'GiCard7Clubs' }
         ];
 
         // shuffle cards
