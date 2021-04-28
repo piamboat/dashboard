@@ -3,7 +3,6 @@ import React from 'react';
 const CardGame = ({ index, flipped, cardIcon, handleFlip }) => {
     return (
         <div
-            key={index}
             className="flex flex-row justify-center"
             onClick={() => handleFlip(index)}
         >

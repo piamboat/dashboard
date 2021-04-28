@@ -36,7 +36,7 @@ const MatchingGame = ({ cards }) => {
                         if( openCard.includes(index) ) flipped = true;
                         if( matched.includes(card.id) ) flipped = true;
 
-                        return <CardGame index={index} flipped={flipped} cardIcon={card.icon} handleFlip={handleFlip} />
+                        return <CardGame key={index} index={index} flipped={flipped} cardIcon={card.icon} handleFlip={handleFlip} />
                     })
                 }
             </div>
