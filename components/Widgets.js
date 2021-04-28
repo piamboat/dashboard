@@ -22,12 +22,23 @@ const Widgets = () => {
     const [widgets, setWidgets] = useState([]);
 
     useEffect(() => {
+        const backUpWidgets = localStorage.getItem('widgets');
+
+        if (backUpWidgets) {
+            setWidgets(JSON.parse(backUpWidgets));
+        }
+    }, [])
+
+    useEffect(() => {
         if (openSettings) {
             setModalContent(
                 <Settings widgets={widgets} onClearWidgets={onClearWidgets} onSetAllZero={onSetAllZero} onSetJustShout={onSetJustShout} />
             );
             setModalActive(true);
         }
+
+        // set local storage
+        localStorage.setItem('widgets', JSON.stringify(widgets));
     }, [widgets])
     
     const onUpdateContent = (id, content) => {
